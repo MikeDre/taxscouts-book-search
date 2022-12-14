@@ -56,8 +56,6 @@ function App() {
     const fetchedBooks: Book[] = data.docs;
     
     fetchedBooks.forEach((fetchedBook) => {
-      console.log(`Pushed ${fetchedBook.title} to books`);
-      console.log(fetchedBook);
       books.push({
         title: fetchedBook.title,
         author_name: [...fetchedBook.hasOwnProperty('author_name') ? fetchedBook.author_name : 'Unkown Author'],

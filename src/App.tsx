@@ -10,7 +10,7 @@ interface Book {
 
 function App() {
 
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [query, setQuery] = useState('');
   const [isSearching, setisSearching] = useState(false);
 

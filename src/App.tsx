@@ -5,7 +5,7 @@ interface Book {
     title: string;
     author_name: string[];
     isbn: string[];
-    publish_year: number[] | null;
+    publish_year: number[];
 }
 
 function App() {
@@ -60,7 +60,7 @@ function App() {
         title: fetchedBook.title,
         author_name: [...fetchedBook.hasOwnProperty('author_name') ? fetchedBook.author_name : 'Unkown Author'],
         isbn: [...fetchedBook.hasOwnProperty('isbn') ? fetchedBook.isbn : ''],
-        publish_year: fetchedBook.hasOwnProperty('publish_year') ? [...fetchedBook.publish_year] : null,
+        publish_year: [...fetchedBook.hasOwnProperty('publish_year') ? fetchedBook.publish_year as number[] : []],
       });
     });
 

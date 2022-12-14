@@ -69,13 +69,23 @@ function App() {
     return books;
   }
 
-
-
   return (
     <div className="App">
         <input type="text" value={query} onChange={e => handleAPIQuery(e.target.value)} placeholder="Enter a book title..."/>
 
-        <div className="books">
+        <div>
+          {books.map((book: Book, i) => (
+            <div className="book" key={i}>
+              <div>
+                <a href={handleAmazonQuery(book)}>
+                  <strong><span>{i + 1}.</span> {book.title}</strong>
+                </a>
+              </div>
+              <div>{book.author_name[0]}</div>
+              <div>{book.isbn[0]}</div>
+              {book.publish_year && <div>{book.publish_year[0]}</div>}
+            </div>
+          ))}
         </div>
     </div>
   )

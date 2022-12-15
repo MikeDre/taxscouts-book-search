@@ -75,6 +75,10 @@ const SearchResults = styled.div`
       text-decoration: none;
       padding-bottom: 5px;
       display: block;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     li {

@@ -41,11 +41,7 @@ function Search() {
 
   // Handle query for Amazon search
   const handleAmazonQuery = (book: Book) => {
-    if (book.isbn.length) {
-      return `https://www.amazon.co.uk/s?k=${book.isbn[0]}`;
-    } else {
-      return `https://www.amazon.co.uk/s?k=${formatQuery(book.title)}+${formatQuery(book.author_name[0])}&i=stripbooks`;
-    }
+    return `https://www.amazon.co.uk/s?k=${formatQuery(book.title)}+${formatQuery(book.author_name[0])}&i=stripbooks`;
   }
 
   // Fetch books from the Open Library API
@@ -91,7 +87,7 @@ function Search() {
           <ol className="search-results__container">
             {books.map((book: Book, i) => (
               <li key={i}>
-                  <a className="search-results__book-title" href={handleAmazonQuery(book)}><strong>{book.title}</strong></a>
+                  <a className="search-results__book-title" href={handleAmazonQuery(book)} target="_blank" rel="noopener noreferrer"><strong>{book.title}</strong></a>
                   <div className="search-results__book-meta">
                     <div className="search-results__author-name">
                     {book.author_name[0]}

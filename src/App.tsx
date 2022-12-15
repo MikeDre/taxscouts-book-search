@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react';
 import useDebounce from './hooks/use-debounce';
+import { formatQuery } from "./utils/helpers";
+
+import Navigation from "./components/Navigation/Navigation";
 
 interface Book {
-    title: string;
-    author_name: string[];
-    isbn: string[];
-    publish_year: number[];
+  title: string;
+  author_name: string[];
+  isbn: string[];
+  publish_year: number[];
 }
 
 function App() {
 
   const [books, setBooks] = useState<Book[]>([]);
   const [query, setQuery] = useState('');
-  const [isSearching, setisSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
   // Debounce the query so that we don't fetch new books on every keystroke
   const debouncedQuery = useDebounce<string>(query, 250);
@@ -26,13 +29,6 @@ function App() {
   // Handle user submitted query for Open Library API
   const handleAPIQuery = (submittedQuery: string) => {  
     setQuery(submittedQuery);
-  }
-
-  // Format query for API / Search engines
-  const formatQuery = (preformatedQuery: string) => {
-    const formattedQuery = preformatedQuery.replace(/\s/g, '+');
-  
-    return formattedQuery;
   }
 
   // Handle query for Amazon search
@@ -69,22 +65,23 @@ function App() {
 
   return (
     <div className="App">
-        <input type="text" value={query} onChange={e => handleAPIQuery(e.target.value)} placeholder="Enter a book title..."/>
+      <Navigation />
+      <input type="text" value={query} onChange={e => handleAPIQuery(e.target.value)} placeholder="Enter a book title..."/>
 
-        <div>
-          {books.map((book: Book, i) => (
-            <div className="book" key={i}>
-              <div>
-                <a href={handleAmazonQuery(book)}>
-                  <strong><span>{i + 1}.</span> {book.title}</strong>
-                </a>
-              </div>
-              <div>{book.author_name[0]}</div>
-              <div>{book.isbn[0]}</div>
-              {book.publish_year && <div>{book.publish_year[0]}</div>}
+      <div>
+        {books.map((book: Book, i) => (
+          <div className="book" key={i}>
+            <div>
+              <a href={handleAmazonQuery(book)}>
+                <strong><span>{i + 1}.</span> {book.title}</strong>
+              </a>
             </div>
-          ))}
-        </div>
+            <div>{book.author_name[0]}</div>
+            <div>{book.isbn[0]}</div>
+            {book.publish_year && <div>{book.publish_year[0]}</div>}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

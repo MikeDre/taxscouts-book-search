@@ -50,7 +50,7 @@ function Search() {
 
     const formatedQuery = formatQuery(query);
 
-    const response = await fetch(`http://openlibrary.org/search.json?q=${formatedQuery}`);
+    const response = await fetch(`https://openlibrary.org/search.json?q=${formatedQuery}`);
     const data = await response.json();
 
     const fetchedBooks: Book[] = data.docs;

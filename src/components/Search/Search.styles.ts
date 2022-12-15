@@ -58,10 +58,11 @@ const SearchResults = styled.div`
   .search-results__book-meta {
     display: flex;
     justify-content: space-between;
+    font-size: 0.8rem;
   }
 
   .search-results__book-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .search-results__container {
@@ -85,7 +86,8 @@ const SearchResults = styled.div`
       margin-bottom: 10px;
       list-style-type: none;
       border-bottom: 1px solid #ddd;
-      padding-bottom: 10px;
+      padding-bottom: 15px;
+      padding-top: 5px;
     }
 
     .search-results__isbn {
@@ -105,7 +107,7 @@ const SearchResults = styled.div`
     }
 
     &::-webkit-scrollbar-thumb:hover {
-        background-color: green;
+        background-color: #ccc;
     }
   }
 `;

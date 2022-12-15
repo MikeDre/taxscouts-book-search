@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.nav`
+const NavWrapper = styled.nav`
   background-color: white;
   box-sizing: border-box;
   display: flex;
@@ -13,4 +13,4 @@ const Wrapper = styled.nav`
   }
 `;
 
-export { Wrapper };
+export { NavWrapper };

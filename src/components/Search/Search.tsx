@@ -87,7 +87,9 @@ function Search() {
           <ol className="search-results__container">
             {books.map((book: Book, i) => (
               <li key={i}>
-                  <a className="search-results__book-title" href={handleAmazonQuery(book)} target="_blank" rel="noopener noreferrer"><strong>{book.title}</strong></a>
+                  <a className="search-results__book-title" href={handleAmazonQuery(book)} target="_blank" rel="noopener noreferrer">
+                    {book.title}
+                  </a>
                   <div className="search-results__book-meta">
                     <div className="search-results__author-name">
                     {book.author_name[0]}

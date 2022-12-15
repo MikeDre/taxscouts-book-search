@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import useDebounce from '../../hooks/use-debounce';
 import { formatQuery } from "../../utils/helpers";
 
-import { SearchWrapper, SearchInput, SearchResults } from "./Search.styles";
+import CloseIcon from "../../assets/icons/close.svg";
+import Loading from "../../assets/icons/loading.svg";
+
+import { SearchWrapper, SearchInput, SearchResults, LoadingAnimation } from "./Search.styles";
 
 interface Book {
   title: string;
@@ -18,14 +21,17 @@ function Search() {
   const [isSearching, setIsSearching] = useState(false);
 
   // Debounce the query so that we don't fetch new books on every keystroke
-  const debouncedQuery = useDebounce<string>(query, 250);
+  const debouncedQuery = useDebounce<string>(query, 500);
 
   useEffect(() => {
-    fetchBooks(query).then(books => {
-      setBooks(books);
-    }).catch(err => {
-      console.error(err);
-    });
+    setIsSearching(true);
+    fetchBooks(query)
+      .then(books => {
+        setBooks(books);
+        setIsSearching(false);
+      }).catch(err => {
+        console.error(err);
+      });
   }, [debouncedQuery]);
 
   // Handle user submitted query for Open Library API
@@ -68,9 +74,20 @@ function Search() {
   return (
     <> 
       <SearchWrapper>
+
+        {isSearching && <LoadingAnimation src={Loading} alt="Loading..." width="30" />}
+
         <SearchInput type="text" value={query} onChange={e => handleAPIQuery(e.target.value)} placeholder="Enter a book title..." />
         {books.length > 0 && <SearchResults>
-          <div className="search-results__total">Found {books.length} results:</div>
+          <div className="search-results__controls">
+            <div className="search-results__total">Found {books.length} results:</div>
+            <div className="search-results__close">
+              <button onClick={() => handleAPIQuery('')}>
+                <img src={CloseIcon} alt="Close results" width="15" />
+              </button>
+            </div>
+          </div>
+
           <ol className="search-results__container">
             {books.map((book: Book, i) => (
               <li key={i}>

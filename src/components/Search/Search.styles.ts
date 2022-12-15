@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
 const SearchWrapper = styled.div`
-    position: relative;
+  display: flex;
+  position: relative;
 `;
 
 const SearchInput = styled.input`
-    border: 1px solid #ddd;
-    padding: 10px;
+  border: 1px solid #ddd;
+  padding: 10px;
 `;
 
 const SearchResults = styled.div`
@@ -30,10 +31,28 @@ const SearchResults = styled.div`
     z-index: -1;
   }
 
-  .search-results__total {
-    margin: 10px 0 20px 10px;
-    font-style: italic;
-    font-size: 0.8rem;
+  .search-results__controls {
+    display: flex;
+    justify-content: space-between;
+
+    .search-results__total {
+      margin: 10px 0 0 10px;
+      font-style: italic;
+      font-size: 0.8rem;
+    }
+
+    .search-results__close {
+      margin: 10px 0 0 10px;
+
+      button {
+        background-color: transparent;
+        border: 0;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
   }
 
   .search-results__book-meta {
@@ -87,4 +106,21 @@ const SearchResults = styled.div`
   }
 `;
 
-export { SearchWrapper, SearchInput, SearchResults };
+const LoadingAnimation = styled.img`
+  animation: spin 2s linear infinite;
+  display: flex;
+  justify-content: center;
+  margin-right: 20px;
+
+  @keyframes spin {
+    0%{
+      transform: rotate(0deg);
+    }
+
+    100%{
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+export { SearchWrapper, SearchInput, SearchResults, LoadingAnimation };

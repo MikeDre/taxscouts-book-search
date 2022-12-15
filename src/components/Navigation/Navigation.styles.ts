@@ -7,6 +7,7 @@ const Wrapper = styled.nav`
     margin-bottom: 50px;
     width: 100%;
     display: flex;
+    justify-content: space-between;
 `;
 
 export { Wrapper };

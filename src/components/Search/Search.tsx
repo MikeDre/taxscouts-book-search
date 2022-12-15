@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import useDebounce from '../../hooks/use-debounce';
 import { formatQuery } from "../../utils/helpers";
+
+import { SearchWrapper, SearchInput, SearchResults } from "./Search.styles";
+
 interface Book {
   title: string;
   author_name: string[];
@@ -48,8 +51,6 @@ function Search() {
     const response = await fetch(`http://openlibrary.org/search.json?q=${formatedQuery}`);
     const data = await response.json();
 
-    console.log(data);
-
     const fetchedBooks: Book[] = data.docs;
     
     fetchedBooks.forEach((fetchedBook) => {
@@ -66,22 +67,27 @@ function Search() {
 
   return (
     <> 
-      <input type="text" value={query} onChange={e => handleAPIQuery(e.target.value)} placeholder="Enter a book title..."/>
-
-      <div>
-      {books.map((book: Book, i) => (
-          <div className="book" key={i}>
-          <div>
-              <a href={handleAmazonQuery(book)}>
-              <strong><span>{i + 1}.</span> {book.title}</strong>
-              </a>
-          </div>
-          <div>{book.author_name[0]}</div>
-          <div>{book.isbn[0]}</div>
-          {book.publish_year && <div>{book.publish_year[0]}</div>}
-          </div>
-      ))}
-      </div>
+      <SearchWrapper>
+        <SearchInput type="text" value={query} onChange={e => handleAPIQuery(e.target.value)} placeholder="Enter a book title..." />
+        {books.length > 0 && <SearchResults>
+          <div className="search-results__total">Found {books.length} results:</div>
+          <ol className="search-results__container">
+            {books.map((book: Book, i) => (
+              <li key={i}>
+                  <a className="search-results__book-title" href={handleAmazonQuery(book)}><strong>{book.title}</strong></a>
+                  <div className="search-results__book-meta">
+                    <div className="search-results__author-name">
+                    {book.author_name[0]}
+                    </div>
+                    <div className="search-results__book-year">
+                      {book.publish_year[0]}
+                    </div>
+                  </div>
+              </li>
+            ))}
+          </ol>
+        </SearchResults>}
+      </SearchWrapper>
     </>
   )
 };

@@ -1,13 +1,16 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.nav`
-    background-color: white;
-    border-bottom: 1px solid #000;
-    height: 50px; 
-    margin-bottom: 50px;
-    width: 100%;
+  background-color: white;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  width: 100%;
+
+  & > div {
     display: flex;
-    justify-content: space-between;
+  }
 `;
 
 export { Wrapper };

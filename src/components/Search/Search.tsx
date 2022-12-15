@@ -41,7 +41,7 @@ function Search() {
 
   // Handle query for Amazon search
   const handleAmazonQuery = (book: Book) => {
-    return `https://www.amazon.co.uk/s?k=${formatQuery(book.title)}+${formatQuery(book.author_name[0])}&i=stripbooks`;
+    return `https://www.amazon.co.uk/s?k=${formatQuery(book.title)}+${formatQuery(book.author_name[0])}+${book.publish_year[0]}&i=stripbooks`;
   }
 
   // Fetch books from the Open Library API

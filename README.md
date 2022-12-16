@@ -15,11 +15,7 @@
 - Vite
 - React
 - TypeScript
-- SASS
-
-#### Features:
-
--
+- Styled Components
 
 
 ---
@@ -31,7 +27,7 @@
 
 First we need to install dependencies. We use
 [yarn](https://yarnpkg.com/lang/en/docs/install/) to install the Node.js
-dependencies from package.json.
+dependencies, this project was built with node 16.0.0.
 
     yarn
 

@@ -5,12 +5,15 @@ const SearchWrapper = styled.div`
   position: relative;
 `;
 
-const SearchInput = styled.input`
-  border: 1px solid #ddd;
-  padding: 10px;
+const SearchInput = styled.div`
+
+  input {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
 `;
 
-const SearchResults = styled.div`
+const SearchResultsWrapper = styled.div`
   background-color: #000;
   color: #fff;
   padding: 10px;
@@ -129,4 +132,4 @@ const LoadingAnimation = styled.img`
   }
 `;
 
-export { SearchWrapper, SearchInput, SearchResults, LoadingAnimation };
+export { SearchWrapper, SearchInput, SearchResultsWrapper, LoadingAnimation };

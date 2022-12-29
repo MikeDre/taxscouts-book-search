@@ -1,5 +1,5 @@
 export const formatQuery = (preformatedQuery: string) => {
-  const formattedQuery = preformatedQuery.replace(/\s/g, '+');
+  const formattedQuery = preformatedQuery.trim().replace(/\s/g, '+');
 
   return formattedQuery;
 }

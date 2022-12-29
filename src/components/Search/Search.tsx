@@ -6,8 +6,8 @@ import { Book, FetchedBook } from "../../types/book-types";
 
 import Input from "../UI/Input";
 import SearchResults from "./SearchResults";
+import SearchResultsControls from "./SearchResultsControls";
 
-import CloseIcon from "../../assets/icons/close.svg";
 import Loading from "../../assets/icons/loading.svg";
 
 import {
@@ -19,23 +19,18 @@ import {
 
 function Search() {
   const [books, setBooks] = useState<Book[]>([]);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const [displayResults, setDisplayResults] = useState(false);
 
   // Debounce the query so that we don't fetch new books on every keystroke
   const debouncedQuery = useDebounce<string>(query, 500);
 
-  useEffect(() => {
-    console.log("Fetching books...");
-    setIsSearching(true);
-    fetchBooks(query)
-      .then((books) => {
-        setBooks(books);
-        setIsSearching(false);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  useEffect(() => {   
+    if (query.length > 0) {
+      setIsSearching(true);
+      fetchBooks(query);
+    }
   }, [debouncedQuery]);
 
   // Handle user submitted query for Open Library API
@@ -43,30 +38,46 @@ function Search() {
     setQuery(submittedQuery);
   };
 
+  // Clear search
+  const clearSearch = () => {
+    setQuery('');
+    setDisplayResults(false);
+  };
+
   // Fetch books from the Open Library API
   const fetchBooks = async (query: string) => {
-    let books: Book[] = [];
-
-    console.log(`Querying for books with title: "${query}"`);
     const formatedQuery = formatQuery(query);
     
-    const response = await fetch(
-      `https://openlibrary.org/search.json?q=${formatedQuery}`
-      );
+    try {
+      const response = await fetch(`https://openlibrary.org/search.json?q=${formatedQuery}`);
       const data = await response.json();
-      
       const fetchedBooks: FetchedBook[] = data.docs;
-      
-      fetchedBooks.forEach((fetchedBook) => {
-        books.push({
-          title: fetchedBook.title,
-          author_name: "author_name" in fetchedBook ? fetchedBook.author_name[0] : "Unkown Author",
-          isbn: "isbn" in fetchedBook ? fetchedBook.isbn[0] : "",
-          publish_year: "publish_year" in fetchedBook ? fetchedBook.publish_year[0] : 0,
-        });
-      });
 
-    return books;
+      setIsSearching(false);
+
+      handleFetchedBooks(fetchedBooks);
+
+    } catch(err) {
+      setIsSearching(false);
+      throw new Error(`Error fetching books: ${err}`);
+    }
+  };
+  
+  // Process fetched books for use in the app
+  const handleFetchedBooks = (fetchedBooks: FetchedBook[]) => {
+    let books: Book[] = [];
+    
+    fetchedBooks.forEach((fetchedBook) => {
+      books.push({
+        title: fetchedBook.title,
+        author_name: "author_name" in fetchedBook ? fetchedBook.author_name[0] : "Unkown Author",
+        isbn: "isbn" in fetchedBook ? fetchedBook.isbn[0] : "",
+        publish_year: "publish_year" in fetchedBook ? fetchedBook.publish_year[0] : 0,
+      });
+    });
+
+    setBooks(books);
+    setDisplayResults(true);
   };
 
   return (
@@ -85,18 +96,12 @@ function Search() {
           />
         </SearchInput>
 
-        {books.length > 0 && (
+        {displayResults && (
           <SearchResultsWrapper>
-            <div className="search-results__controls">
-              <div className="search-results__total">
-                Found {books.length} results:
-              </div>
-              <div className="search-results__close">
-                <button onClick={() => setQuery("")}>
-                  <img src={CloseIcon} alt="Close results" width="15" />
-                </button>
-              </div>
-            </div>
+            <SearchResultsControls
+              totalBooks={books.length}
+              onClick={clearSearch}
+            />
             <SearchResults data={books} />
           </SearchResultsWrapper>
         )}

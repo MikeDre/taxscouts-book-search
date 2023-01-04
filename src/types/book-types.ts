@@ -4,6 +4,10 @@ export interface FetchedBook {
   isbn: string[];
   publish_year: number[];
 }
+export interface FetchedBooks {
+  docs: FetchedBook[];
+  url: string;
+}
 
 export interface Book {
   title: string;
